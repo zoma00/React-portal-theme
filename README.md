@@ -1,3 +1,10 @@
+<p align="center">
+  <a href="https://react.dev/" target="_blank">
+    <img src="react-1-logo-png-transparent.png" width="200" alt="Django Logo">
+  </a>
+
+
+
 
 ** React Portal Theme **
 A customizable React theme system that uses portals to render modals, tooltips, and overlays outside the main DOM hierarchy.
