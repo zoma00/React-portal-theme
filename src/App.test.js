@@ -1,8 +1,13 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import {useState} from 'react';
+import Modal from './components/Modal';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
+test('Modal component', () => {
+    const [isOpen, setIsOpen] = useState(false);
+    
+    const handleOpenModal = () => {
+        setIsOpen(true);
+    };
+    const handleCloseModal = () => {
+        setIsOpen(false);
+    };
+      

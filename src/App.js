@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import { useState } from 'react';
+import Modal from './components/Modal';
+import { ThemeContext } from './ThemeContext';
+import Header from './Header';
+import style from './App.css';
 
-function App() {
+export default function App() {
+  const [showModal, setShowModal] = useState(false);
+  const [theme, setTheme] = useState('light');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      <div className={`app-container ${theme}`}>
+        <Header />
+        <button 
+          onClick={() => setShowModal(true)}
+          className="cta-button"
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          Show Important Message
+        </button>        
+        {showModal && (
+          <Modal onClose={() => setShowModal(false)}>
+            <h2>2025 Update Notice</h2>
+            <p>New security features have been enabled:</p>
+            <ul>
+              <li>Quantum-resistant encryption</li>
+              <li>Neural network validation</li>
+              <li>Biometric fallback system</li>
+            </ul>
+          </Modal>
+        )}
+      </div>
+    </ThemeContext.Provider>
   );
 }
-
-export default App;

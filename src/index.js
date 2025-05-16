@@ -4,6 +4,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+
+// Create Portal container
+const portalRoot = document.createElement('div');
+portalRoot.id = 'modal-root';
+document.body.appendChild(portalRoot);
+// Render main app
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
