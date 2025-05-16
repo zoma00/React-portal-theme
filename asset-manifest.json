@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/React-portal-theme/static/css/main.e2358210.css",
+    "main.js": "/React-portal-theme/static/js/main.f3e91129.js",
+    "static/js/453.8c73a42b.chunk.js": "/React-portal-theme/static/js/453.8c73a42b.chunk.js",
+    "index.html": "/React-portal-theme/index.html",
+    "main.e2358210.css.map": "/React-portal-theme/static/css/main.e2358210.css.map",
+    "main.f3e91129.js.map": "/React-portal-theme/static/js/main.f3e91129.js.map",
+    "453.8c73a42b.chunk.js.map": "/React-portal-theme/static/js/453.8c73a42b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e2358210.css",
+    "static/js/main.f3e91129.js"
+  ]
+}
