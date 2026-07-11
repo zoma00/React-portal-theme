@@ -13,20 +13,24 @@ export default function App() {
     <ThemeContext.Provider value={{ theme, setTheme }}>
       <div className={`app-container ${theme}`}>
         <Header />
-        <button 
+        <button
           onClick={() => setShowModal(true)}
           className="cta-button"
         >
-          Show Important Message
-        </button>        
+          Open portal dialog
+        </button>
         {showModal && (
           <Modal onClose={() => setShowModal(false)}>
-            <h2>2025 Update Notice</h2>
-            <p>New security features have been enabled:</p>
+            <h2>React Portal Dialog</h2>
+            <p>
+              This dialog is rendered through a React portal — mounted outside
+              the app's DOM tree — and inherits the active light/dark theme
+              from context.
+            </p>
             <ul>
-              <li>Quantum-resistant encryption</li>
-              <li>Neural network validation</li>
-              <li>Biometric fallback system</li>
+              <li>Rendered via ReactDOM portal</li>
+              <li>Theme-aware (light / dark)</li>
+              <li>Reusable modal with overlay close</li>
             </ul>
           </Modal>
         )}
