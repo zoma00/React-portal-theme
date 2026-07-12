@@ -1,160 +1,106 @@
-<p align="center">
-  <a href="https://react.dev/" target="_blank">
-    <img src="react-1-logo-png-transparent.png" width="200" alt="Django Logo">
-  </a>
+# React Portal Theme
 
+![React](https://img.shields.io/badge/React-19.1-61DAFB?logo=react&logoColor=black)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
+![React Portal](https://img.shields.io/badge/ReactDOM-Portal-149ECA?logo=react&logoColor=white)
+![Context API](https://img.shields.io/badge/Context_API-Light%20%2F%20Dark-6B7280)
+![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-Live-222222?logo=githubpages&logoColor=white)
 
+A focused React demonstration of a reusable portal dialog mounted outside the application's main DOM tree, paired with an application-level light/dark theme managed through React Context.
 
+## Live Demo
 
-# React Portal Theme System 🌓🌀
-[![npm version](https://img.shields.io/npm/v/react-portal-theme)](https://www.npmjs.com/package/react-portal-theme)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/yourusername/react-portal-theme/main.yml)](https://github.com/yourusername/react-portal-theme/actions)
+[Open the React Portal Theme demo](https://zoma00.github.io/React-portal-theme/)
 
-A sophisticated theming solution that leverages React Portals for optimal rendering of contextual UI elements while maintaining centralized theme management.
+## Implemented Features
 
-## ✨ Features
-- **Portal-Powered UI Elements**: Modal, Tooltip, Notification components
-- **Theme Context System**: Unified light/dark mode management
-- **CSS Variable Based**: Theme properties as CSS custom properties
-- **Dynamic Theming**: Runtime theme switching without reload
-- **Zero CSS Conflicts**: Isolated portal rendering for overlay components
+- Reusable modal component rendered with `ReactDOM.createPortal`
+- Dedicated `#modal-root` mounted outside the main React application root
+- Application-level light/dark theme state shared through React Context
+- Theme toggle available from the application header
+- Modal opened through a controlled button
+- Modal closed through the close button or overlay click
+- Click propagation stopped inside the dialog so its content remains interactive
 
-## 🚀 Installation
+## How the Portal Works
+
+The application creates two DOM mounting points:
+
+```text
+document.body
+├── #root         → main React application
+└── #modal-root   → portal dialog container
+```
+
+`src/index.js` creates `#modal-root`. When the modal opens, the modal component creates a container, attaches it to that portal root, and renders the overlay and dialog through `ReactDOM.createPortal`.
+
+The modal is therefore visually connected to the application while remaining outside the main application's DOM hierarchy.
+
+## Theme Flow
+
+```text
+App
+└── ThemeContext.Provider
+    ├── Header → reads and changes the theme
+    ├── App container → applies the light/dark class
+    └── Modal → renders through the separate portal root
+```
+
+The current theme is stored in `App` and shared through `ThemeContext`. The main application container applies either the `light` or `dark` class. The modal currently uses its own CSS Module styling; a future portal child can consume `ThemeContext` directly when theme-specific dialog styling is required.
+
+## Technology Stack
+
+- React 19
+- React DOM portals
+- React Context API
+- Create React App / React Scripts
+- CSS Modules for modal styling
+- GitHub Pages for the live deployment
+
+## Project Structure
+
+```text
+src/
+├── components/
+│   └── Modal/
+│       ├── Modal.tsx
+│       ├── Modal.module.css
+│       └── index.js
+├── App.js
+├── App.css
+├── Header.jsx
+├── ThemeContext.jsx
+├── index.js
+└── index.css
+```
+
+## Run Locally
+
 ```bash
-npm install react-portal-theme styled-components
-# or
-yarn add react-portal-theme styled-components
-```
-
-## 🧩 Core Concepts
-
-### React Portals Architecture
-```tsx
-// Portal creation example
-const ModalPortal: React.FC = ({ children }) => {
-  const [portalNode] = useState(document.createElement('div'));
-  
-  useEffect(() => {
-    document.body.appendChild(portalNode);
-    return () => document.body.removeChild(portalNode);
-  }, [portalNode]);
-
-  return createPortal(children, portalNode);
-};
-```
-
-### Theme Context System
-```tsx
-// ThemeContext.tsx
-import React from 'react';
-
-type Theme = 'light' | 'dark';
-const ThemeContext = React.createContext<{
-  theme: Theme;
-  toggleTheme: () => void;
-}>({ theme: 'light', toggleTheme: () => {} });
-
-export const ThemeProvider: React.FC = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>('light');
-  
-  const toggleTheme = () => setTheme(prev => 
-    prev === 'light' ? 'dark' : 'light'
-  );
-
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  );
-};
-```
-
-## 🎨 Theming Strategies
-```css
-/* theme.css */
-:root {
-  --primary-color: #2196f3;
-  --background-light: #ffffff;
-  --background-dark: #121212;
-  --text-primary: rgba(0, 0, 0, 0.87);
-  --text-secondary: rgba(0, 0, 0, 0.54);
-}
-
-[data-theme='dark'] {
-  --background: var(--background-dark);
-  --text-primary: rgba(255, 255, 255, 0.87);
-  --text-secondary: rgba(255, 255, 255, 0.54);
-}
-```
-
-## 📚 Usage Guide
-```tsx
-// App.tsx
-import { ThemeProvider, useTheme } from 'react-portal-theme';
-
-const App = () => (
-  <ThemeProvider>
-    <ThemeToggleButton />
-    <ModalPortal>
-      <ThemeAwareModal />
-    </ModalPortal>
-  </ThemeProvider>
-);
-
-const ThemeToggleButton = () => {
-  const { theme, toggleTheme } = useTheme();
-  return (
-    <button 
-      onClick={toggleTheme}
-      className={`theme-toggle ${theme}`}
-    >
-      Switch to {theme === 'light' ? '🌙' : '☀️'}
-    </button>
-  );
-};
-```
-
-## 🛠 Development Scripts
-```bash
-# Start development server
+git clone https://github.com/zoma00/React-portal-theme.git
+cd React-portal-theme
+npm install
 npm start
+```
 
-# Run tests with watch mode
-npm test
+Open <http://localhost:3000>.
 
-# Build production bundle
+## Create a Production Build
+
+Before building for this GitHub Pages project path, ensure `package.json` contains:
+
+```json
+"homepage": "https://zoma00.github.io/React-portal-theme/"
+```
+
+Then create the build:
+
+```bash
 npm run build
-
-# Analyze bundle size
-npm run analyze
 ```
 
-## 🧪 Testing Strategy
-```tsx
-// Modal.test.tsx
-test('renders modal outside root hierarchy', () => {
-  const { getByText } = render(
-    <div id="root">
-      <App />
-    </div>
-  );
-  
-  fireEvent.click(getByText('Open Modal'));
-  expect(document.body.querySelector('.modal')).toBeInTheDocument();
-});
-```
+The generated static build is published from the repository's `gh-pages` branch.
 
-## 🚧 Roadmap
-- [ ] TypeScript definition files
-- [ ] CSS-in-JS theming adapters (Emotion, JSS)
-- [ ] Portal transition animations
-- [ ] Theme persistence (localStorage)
-- [ ] Accessibility audit (WAI-ARIA)
+## Scope
 
-## 🤝 Contributing
-PRs welcome! Please follow our [contribution guidelines](CONTRIBUTING.md).
-
-## 📄 License
-MIT © [Hazem Elbatawy ]
-
+This repository is an implementation demo, not a published npm package or a complete portal component library. Its current scope is one reusable portal modal plus an application-level light/dark theme toggle. Tooltips, notification components, and third-party theming adapters are not implemented here.
